@@ -1,0 +1,33 @@
+version: '3.7'
+services:
+  web:
+    container_name: wp
+    build: .
+    ports:
+    - 3007:80
+    environment:
+      - WORDPRESS_DB_HOST=db
+      - WORDPRESS_DB_NAME=woocommerce
+      - WORDPRESS_DB_USER=woocommerce
+      - WORDPRESS_DB_PASSWORD=woocommerce
+    volumes:
+      - type: bind
+        source: '../'
+        target: /var/www/html/wp-content/plugins/relevanzz
+        consistency: cached
+  db:
+    container_name: db_wp
+    image: mysql:5.7.27
+    environment:
+      - MYSQL_DATABASE=woocommerce
+      - MYSQL_USER=woocommerce
+      - MYSQL_PASSWORD=woocommerce
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
+    tmpfs: /var/lib/mysql
+  
+  adminer:
+    container_name: adminer_wp
+    image: adminer
+    restart: always
+    ports:
+      - 8081:8080

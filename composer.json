@@ -1,0 +1,13 @@
+{
+    "name": "relevanzz/relevanzz",
+    "description": "Relevanzz for woocommerce",
+    "type": "plugin",
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "Relevanzz",
+            "email": "dev@relevanzz.com"
+        }
+    ],
+    "require": {}
+}
