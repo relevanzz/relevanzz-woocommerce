@@ -3,7 +3,7 @@ Contributors: Relevanzz
 Tags: woocommerce, relevanzz, facebook, segmentation, facebook, facebook ads
 Requires at least: 4.0
 Tested up to: 5.4.1
-Stable tag: 1.0.0
+Stable tag: 0.0.1
 Requires PHP: 5.6
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -27,12 +27,12 @@ Create custom segments that are automatically synced with Facebook to deliver th
 
 == Screenshots ==
 
-1. Account dashboard
-2. Broadcast dashboard
-3. Multi-channel workflows
-4. Product recommendations
-5. Customer profiles
-6. Visual email builder
+1. Product segmentation
+2. Stage lifecycle segmentation
+3. Spending habits segmentation
+4. Tags & attributes segmentation
+5. Facebook audience synchronization
+6. Facebook & Instagram
 
 == Support ==
 

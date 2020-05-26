@@ -3,7 +3,7 @@
    Plugin Name: Relevanzz for Woocommerce
    Plugin URI: https://github.com/Relevanzz/relevanzz-woocommerce
    description: Easily integrate Relevanzz with your WooCommerce  
-   Version: 1.0
+   Version: 0.0.1
    Author: Relevanzz
    Author URI: https://relevanzz.com
    License: GPL2
