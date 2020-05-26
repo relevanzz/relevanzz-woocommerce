@@ -10,7 +10,7 @@ require_once __DIR__ . '/class-relevanzz-utils.php';
 
 class WC_RLZ_API
 {
-    const VERSION = '1.0.0';
+    const VERSION = '0.0.1';
 
     const RELEVANZZ_BASE_URL = 'relevanzz/v1/';
     const ORDERS_ENDPOINT = 'orders';
