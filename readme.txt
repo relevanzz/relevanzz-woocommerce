@@ -1,4 +1,4 @@
-=== Relevanzz for WooCommerce ===
+=== Relevanzz ===
 Contributors: Relevanzz
 Tags: woocommerce, relevanzz, facebook, segmentation, facebook, facebook ads
 Requires at least: 4.0
