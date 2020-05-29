@@ -3,7 +3,7 @@ Contributors: Relevanzz
 Tags: woocommerce, relevanzz, facebook, segmentation, facebook, facebook ads
 Requires at least: 4.0
 Tested up to: 5.4.1
-Stable tag: 0.0.1
+Stable tag: 0.0.2
 Requires PHP: 5.6
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -47,6 +47,10 @@ Integrate Relevanzz and your WooCommerce with simple steps.
 * Set the WooCommerce API keys in your Relevanzz's workspace
 
 == Changelog ==
+
+= 0.0.2 = 
+
+* Changing code to Wordpress conventions
 
 = 0.0.1 = 
 
