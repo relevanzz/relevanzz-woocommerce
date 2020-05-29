@@ -6,7 +6,7 @@
  */
 
 defined('ABSPATH') || die('Executing outside of the WordPress context.');
-require_once __DIR__ . '/class-relevanzz-utils.php';
+require_once __DIR__ . '/class-relevanzz-woocommerce-utils.php';
 
 class WC_RLZ_API
 {
@@ -40,7 +40,7 @@ class WC_RLZ_API
     const ERROR_WOOCOMMERCE_NOT_INSTALLED = 'woocommerceNotInstalled';
 }
 
-function rlz_count_loop(WP_Query $loop)
+function relevanzz_count_loop(WP_Query $loop)
 {
     $loop_ids = array();
     while ($loop->have_posts()) {
@@ -51,11 +51,11 @@ function rlz_count_loop(WP_Query $loop)
     return $loop_ids;
 }
 
-function rlz_validate_request($request)
+function relevanzz_validate_request($request)
 {
-    $is_woocommerce_activated = Woocommerce_Utils::isWoocommerceActivated();
+    $is_woocommerce_activated = WC_RELEVANZZ_UTILS::isWoocommerceActivated();
     if(!$is_woocommerce_activated) {
-        return rlz_validation_response(
+        return relevanzz_validation_response(
             true,
             WC_RLZ_API::STATUS_CODE_PRECONDITION_REQUIRED,
             WC_RLZ_API::ERROR_WOOCOMMERCE_NOT_INSTALLED,
@@ -66,7 +66,7 @@ function rlz_validate_request($request)
     $consumer_key = $request->get_param('consumer_key');
     $consumer_secret = $request->get_param('consumer_secret');
     if (empty($consumer_key) || empty($consumer_secret)) {
-        return rlz_validation_response(
+        return relevanzz_validation_response(
             true,
             WC_RLZ_API::STATUS_CODE_UNPROCESSABLE_ENTITY,
             WC_RLZ_API::ERROR_KEYS_NOT_PASSED,
@@ -90,7 +90,7 @@ function rlz_validate_request($request)
     );
 
     if ($user->consumer_secret == $consumer_secret) {
-        return rlz_validation_response(
+        return relevanzz_validation_response(
             false,
             WC_RLZ_API::STATUS_CODE_HTTP_OK,
             null,
@@ -98,7 +98,7 @@ function rlz_validate_request($request)
             WC_RLZ_API::VERSION
         );
     }
-    return rlz_validation_response(
+    return relevanzz_validation_response(
         true,
         WC_RLZ_API::STATUS_CODE_AUTHORIZATION_ERROR,
         WC_RLZ_API::ERROR_CONSUMER_KEY_NOT_FOUND,
@@ -107,7 +107,7 @@ function rlz_validate_request($request)
     );
 }
 
-function rlz_validation_response($error, $code, $reason, $success, $version)
+function relevanzz_validation_response($error, $code, $reason, $success, $version)
 {
     return array(
         WC_RLZ_API::API_RESPONSE_ERROR => $error,
@@ -118,7 +118,7 @@ function rlz_validation_response($error, $code, $reason, $success, $version)
     );
 }
 
-function rlz_process_resource_args($request, $post_type)
+function relevanzz_process_resource_args($request, $post_type)
 {
     $page_limit = $request->get_param('page_limit');
     if (empty($page_limit)) {
@@ -144,81 +144,81 @@ function rlz_process_resource_args($request, $post_type)
     return $args;
 }
 
-function rlz_get_orders_count(WP_REST_Request $request)
+function relevanzz_get_orders_count(WP_REST_Request $request)
 {
-    $validated_request = rlz_validate_request($request);
+    $validated_request = relevanzz_validate_request($request);
     if ($validated_request['error'] === true) {
         return $validated_request;
     }
 
-    $args = rlz_process_resource_args($request, 'shop_order');
+    $args = relevanzz_process_resource_args($request, 'shop_order');
 
     $loop = new WP_Query($args);
-    $data = rlz_count_loop($loop);
+    $data = relevanzz_count_loop($loop);
     return array('order_count' => $loop->found_posts);
 }
 
-function rlz_get_products_count(WP_REST_Request $request)
+function relevanzz_get_products_count(WP_REST_Request $request)
 {
-    $validated_request = rlz_validate_request($request);
+    $validated_request = relevanzz_validate_request($request);
     if ($validated_request['error'] === true) {
         return $validated_request;
     }
 
-    $args = rlz_process_resource_args($request, 'product');
+    $args = relevanzz_process_resource_args($request, 'product');
     $loop = new WP_Query($args);
-    $data = rlz_count_loop($loop);
+    $data = relevanzz_count_loop($loop);
     return array('product_count' => $loop->found_posts);
 }
 
-function rlz_get_products(WP_REST_Request $request)
+function relevanzz_get_products(WP_REST_Request $request)
 {
-    $validated_request = rlz_validate_request($request);
+    $validated_request = relevanzz_validate_request($request);
     if ($validated_request['error'] === true) {
         return $validated_request;
     }
 
-    $args = rlz_process_resource_args($request, 'product');
+    $args = relevanzz_process_resource_args($request, 'product');
 
     $loop = new WP_Query($args);
-    $data = rlz_count_loop($loop);
+    $data = relevanzz_count_loop($loop);
     return array('product_ids' => $data);
 }
 
-function rlz_get_orders(WP_REST_Request $request)
+function relevanzz_get_orders(WP_REST_Request $request)
 {
-    $validated_request = rlz_validate_request($request);
+    $validated_request = relevanzz_validate_request($request);
     if ($validated_request['error'] === true) {
         return $validated_request;
     }
 
-    $args = rlz_process_resource_args($request, 'shop_order');
+    $args = relevanzz_process_resource_args($request, 'shop_order');
 
     $loop = new WP_Query($args);
-    $data = rlz_count_loop($loop);
+    $data = relevanzz_count_loop($loop);
     return array('order_ids' => $data);
 }
 
-function rlz_get_extension_version($data)
+function relevanzz_get_extension_version($data)
 {
     return array('version' => WC_RLZ_API::VERSION);
 }
 
-function rlz_handleHealthcheck(WP_REST_Request $request)
+function relevanzz_handleHealthcheck(WP_REST_Request $request)
 {
-    $validated_request = rlz_validate_request($request);
+    $validated_request = relevanzz_validate_request($request);
     if ($validated_request['error'] === true) {
         return $validated_request;
     }
-    $is_woocommerce_activated = Woocommerce_Utils::isWoocommerceActivated();
-    $response = new HealthcheckResponse(WC_RLZ_API::VERSION, $is_woocommerce_activated);
+    $is_woocommerce_activated = WC_RELEVANZZ_UTILS::isWoocommerceActivated();
+    $response = new WC_RLZ_HEALTHCHECK_RESPONSE(WC_RLZ_API::VERSION, $is_woocommerce_activated);
     return $response->jsonSerialize();
 }
 
 add_action('rest_api_init', function () {
     register_rest_route(WC_RLZ_API::RELEVANZZ_BASE_URL, WC_RLZ_API::EXTENSION_VERSION_ENDPOINT, array(
         'methods' => WP_REST_Server::READABLE,
-        'callback' => 'rlz_get_extension_version',
+        'callback' => 'relevanzz_get_extension_version',
         )
     );
 });
@@ -227,7 +227,7 @@ add_action('rest_api_init', function ()
 {
     register_rest_route(WC_RLZ_API::RELEVANZZ_BASE_URL, 'orders/count', array(
         'methods' => WP_REST_Server::READABLE,
-        'callback' => 'rlz_get_orders_count',
+        'callback' => 'relevanzz_get_orders_count',
         )
     );
 });
@@ -236,7 +236,7 @@ add_action('rest_api_init', function ()
 {
     register_rest_route(WC_RLZ_API::RELEVANZZ_BASE_URL, 'products/count', array(
         'methods' => WP_REST_Server::READABLE,
-        'callback' => 'rlz_get_products_count',
+        'callback' => 'relevanzz_get_products_count',
         )
     );
 });
@@ -245,7 +245,7 @@ add_action('rest_api_init', function ()
 {
     register_rest_route(WC_RLZ_API::RELEVANZZ_BASE_URL, WC_RLZ_API::ORDERS_ENDPOINT, array(
         'methods' => WP_REST_Server::READABLE,
-        'callback' => 'rlz_get_orders',
+        'callback' => 'relevanzz_get_orders',
         'args' => array(
             'id' => array(
                 'validate_callback' => 'is_numeric'
@@ -261,7 +261,7 @@ add_action('rest_api_init', function()
 {
     register_rest_route(WC_RLZ_API::RELEVANZZ_BASE_URL, WC_RLZ_API::PRODUCTS_ENDPOINT, array(
         'methods' => WP_REST_Server::READABLE,
-        'callback' => 'rlz_get_products',
+        'callback' => 'relevanzz_get_products',
         'args' => array(
             'id' => array(
                 'validate_callback' => 'is_numeric'
@@ -277,7 +277,7 @@ add_action('rest_api_init', function()
 {
     register_rest_route(WC_RLZ_API::RELEVANZZ_BASE_URL, WC_RLZ_API::HEALTHCHECK_ENDPOINT, array(
         'methods' => WP_REST_Server::READABLE,
-        'callback' => 'rlz_handleHealthcheck',
+        'callback' => 'relevanzz_handleHealthcheck',
         'args' => array(
             'id' => array(
                 'validate_callback' => 'is_numeric'
@@ -289,7 +289,7 @@ add_action('rest_api_init', function()
     );
 });
 
-class HealthcheckResponse implements JsonSerializable
+class WC_RLZ_HEALTHCHECK_RESPONSE implements JsonSerializable
 {
     private $version;
     private $is_woocommerce_activated;

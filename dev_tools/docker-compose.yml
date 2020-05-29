@@ -13,7 +13,7 @@ services:
     volumes:
       - type: bind
         source: '../'
-        target: /var/www/html/wp-content/plugins/relevanzz
+        target: /var/www/html/wp-content/plugins/relevanzz-woocommerce
         consistency: cached
   db:
     container_name: db_wp
